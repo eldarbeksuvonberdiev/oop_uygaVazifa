@@ -80,8 +80,8 @@ include "DB.php";
 include "Product.php";
 
 $db = new DB();
- $product = new Product($db->boglanish());
- $products = $product->getAll();
+$product = new Product($db->boglanish());
+$products = $product->getAll();
  ?>
 
 <table width="90%" border="2" align="center">
