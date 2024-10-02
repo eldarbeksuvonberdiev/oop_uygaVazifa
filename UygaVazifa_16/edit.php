@@ -6,9 +6,27 @@ include "database.php";
 $db = new Database();
 $student = new Actions($db->connect());
 
-$student->id = $_SESSION['id'];
-
+$student->id = (int)$_SESSION['id'];
 $students = $student->getOne();
+
+if (isset($_POST['edit']) && !empty($_POST['fio']) && !empty($_POST['tel']) && !empty($_POST['manzil']) && !empty($_FILES['rasm'])) {
+    $student->id = (int)$_SESSION['id'];
+    $student->fname = $_POST['fio'];
+    $student->tel = $_POST['tel'];
+    $student->manzil = $_POST['manzil'];
+    print_r($student);
+    // if (isset($_FILES['rasm'])) {
+    //     $data = explode('.', $_FILES['rasm']['name']);
+    //     $name = 'images/' . date('Y-m-d-H-i-s') . '.' . $data[1];
+    //     move_uploaded_file($_FILES['rasm']['tmp_name'], $name);
+
+    //     $student->rasm = $name;
+    // }
+    // if ($student->edit())
+    //     header("location:index.php");
+    // else
+    //     echo "Xatolik yuz berdi";
+}
 
 ?>
 
@@ -29,19 +47,19 @@ $students = $student->getOne();
                 <form action="" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="FIO" class="form-label">FIO</label>
-                        <input type="text" name="fio" class="form-control" id="FIO" value="<?= $student['fio'] ?>">
+                        <input type="text" name="fio" class="form-control" id="FIO" value="<?= $students['fio'] ?>">
                     </div>
                     <div class="mb-3">
                         <label for="Telefon" class="form-label">Telefon</label>
-                        <input type="text" name="tel" class="form-control" id="Telefon" value="<?=$student['tel']?>">
+                        <input type="text" name="tel" class="form-control" id="Telefon" value="<?= $students['tel'] ?>">
                     </div>
                     <div class="mb-3">
                         <label for="Manzil" class="form-label">Manzil</label>
-                        <input type="text" name="manzil" class="form-control" id="Manzil" value="<?=$student['manzil']?>">
+                        <input type="text" name="manzil" class="form-control" id="Manzil" value="<?= $students['manzil'] ?>">
                     </div>
                     <div class="mb-3">
                         <label for="Rasm" class="form-label">Rasm</label>
-                        <img src="<?= $student['rasm'] ?>" alt="">
+                        <img src="<?= $students['img'] ?>" width="200" alt=""><br><br>
                         <input type="file" name="rasm" class="form-control" id="Rasm" placeholder="Rasm">
                     </div>
                     <button type="submit" name="edit" class="btn btn-primary">Primary</button>
