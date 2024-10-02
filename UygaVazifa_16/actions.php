@@ -32,7 +32,7 @@ class Actions{
         $sql = "SELECT * FROM $this->table WHERE id = :id";
         $stmt = $this->con->prepare($sql);
         $stmt->bindParam(':id',$this->id);
-        $stmt = $this->con->query($sql);
+        $stmt->execute($sql);
         return $stmt->fetch(PDO::FETCH_ASSOC);
 
     }
