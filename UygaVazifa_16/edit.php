@@ -9,7 +9,6 @@ $student = new Actions($db->connect());
 $student->id = $_SESSION['id'];
 
 $students = $student->getOne();
-print_r($students);
 
 ?>
 
