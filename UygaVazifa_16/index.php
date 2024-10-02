@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "Actions.php";
 include "database.php";
 
@@ -6,13 +7,20 @@ $db = new Database();
 $student = new Actions($db->connect());
 $students = $student->getAll();
 
-if (isset($_POST['del_id'])) {
-    $student->id = $_POST['del_id'];
-    if($student->delete()){
+if (isset($_GET['del_id'])) {
+    $student->id = $_GET['del_id'];
+    if ($student->delete()) {
         echo "O'chirildi!";
-    }else{
+        header("location:index.php");
+    } else {
         echo "Xatolik yuz berdi!";
     }
+}
+
+
+if(isset($_GET['edit_id'])){
+   $_SESSION['id'] = $_GET['edit_id'];
+   header("location:edit.php");
 }
 
 ?>
@@ -75,10 +83,8 @@ if (isset($_POST['del_id'])) {
                                     <img src="<?= $student['img'] ?>" width="100" alt="">
                                 </td>
                                 <td>
-                                    <form action="" method="POST">
-                                        <a href="">Edit</a>
-                                        <a href="?del_id=<?= $student['id'] ?>">Delete</a>
-                                    </form>
+                                    <a href="?edit_id=<?= $student['id'] ?>">Edit</a>
+                                    <a href="?del_id=<?= $student['id'] ?>">Delete</a>
                                 </td>
                             </tr>
                         <?php }

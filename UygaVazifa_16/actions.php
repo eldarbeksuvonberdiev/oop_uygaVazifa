@@ -22,9 +22,18 @@ class Actions{
 
     public function getAll(){
         
-        $sql = "SELECT * FROM $this->table";
+        $sql = "SELECT * FROM $this->table ORDER BY id DESC";
         $stmt = $this->con->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+    public function getOne(){
+        
+        $sql = "SELECT * FROM $this->table WHERE id = :id";
+        $stmt = $this->con->prepare($sql);
+        $stmt->bindParam(':id',$this->id);
+        $stmt = $this->con->query($sql);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
 
     }
     public function create(){
@@ -51,14 +60,22 @@ class Actions{
     }
 
     public function delete(){
+
         $sql = "DELETE FROM $this->table WHERE id = :id";
+
         $stmt = $this->con->prepare($sql);
+        
         $this->id = htmlspecialchars(strip_tags($this->id));
         $stmt->bindParam(':id',$this->id);
+        
         if($stmt->execute()){
             return true;
         }
         return false;
+    }
+
+    public function edit(){
+
     }
 
 }
